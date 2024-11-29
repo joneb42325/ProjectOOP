@@ -58,7 +58,7 @@ namespace ProjectOOP
                 {
                     throw new ArgumentException("Phone number must contain exactly 13 characters and consist of digits after +380.");
                 }
-                PhoneNumber = value;
+                phoneNumber = value;
             }
         }
         

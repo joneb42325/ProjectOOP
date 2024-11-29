@@ -9,10 +9,19 @@ namespace ProjectOOP
 {
     public class Gym
     {
-        private string Name { get; set; }
-        private string Adress { get; set; }
+        private string name { get; set; }
+        private string adress { get; set; }
 
-
+        public string Name
+       {
+            get { return name; }
+            set {  name = value; }
+       }
+        public string Adress
+        {
+            get { return adress; }
+            set { adress = value; }
+        }
         public List<Client> clients = new List<Client>();
 
         public List<Trainer> trainers = new List<Trainer>();

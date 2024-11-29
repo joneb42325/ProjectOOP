@@ -30,16 +30,6 @@ namespace ProjectOOP
             Balance += amount;
         }
 
-        public bool RefundPayment (decimal amount)
-        {
-            if (Balance >= amount)
-            {
-                Balance -= amount;
-                return true;
-            }
-            return false;
-        }
-
         public bool IsActive ()
         {
             if (EndDate < DateTime.Now)

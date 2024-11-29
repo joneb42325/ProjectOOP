@@ -9,7 +9,7 @@ namespace ProjectOOP
     internal interface IPayment
     {
         public void ProcessPayment(decimal amount);
-        public bool RefundPayment(decimal amount);
+        public bool IsActive();
         public void GetDetails();
     }
 }

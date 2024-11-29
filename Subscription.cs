@@ -9,12 +9,22 @@ namespace ProjectOOP
 {
     public class Subscription : IPayment
     {
-        public decimal Price { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        private decimal price;
+        public DateTime StartDate;
+        public DateTime EndDate;
 
-        public decimal Balance { get; set; } = 100;
+        public decimal Balance;
 
+        public decimal Price
+        {
+            get { return price; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Вартість абонементу не може бути від'ємною");
+                price = value;
+            }
+        }
         public void ProcessPayment (decimal amount)
         {
             Balance += amount;

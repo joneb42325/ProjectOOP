@@ -8,7 +8,7 @@ namespace ProjectOOP
 {
     public class Client : Person
     {
-        public Trainer PersonalTrainer;
+        public Trainer PersonalTrainer { get; set; }
 
         public Subscription CurrentSubscription;
 
@@ -49,10 +49,15 @@ namespace ProjectOOP
 
         public void AssignTrainer (Trainer trainer, Client client)
         {
-            trainer = PersonalTrainer;
+            PersonalTrainer = trainer;
             Trainer.AssignedClients.Add (client);
         }
 
+        public void RemoveTrainer (Trainer trainer, Client client)
+        {
+            PersonalTrainer = null;
+            Trainer.AssignedClients.Remove (client);
+        }
         public void AddFunds(decimal amount)
         {
             Balance += amount;
@@ -65,7 +70,7 @@ namespace ProjectOOP
                                       $"Subscription: Month (Valid from {CurrentSubscription.StartDate.ToShortDateString()} to {CurrentSubscription.EndDate.ToShortDateString()})" :
                                       "No active subscription.";
             string trainerInfo = PersonalTrainer != null ?
-                                       $"Trainer Name : {PersonalTrainer.Name} Trainer Age: {PersonalTrainer.Age}" :
+                                       $"Trainer Name : {PersonalTrainer.Name}; Trainer Age: {PersonalTrainer.Age}" :
                                        "Client has not trainer";
             s=  $"Client Name: {Name}\nTrainer: {trainerInfo}\nBalance: {Balance:C}\n{subscriptionInfo}";
             return s;

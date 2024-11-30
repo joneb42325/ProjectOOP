@@ -66,9 +66,12 @@ namespace ProjectOOP
         public void UpdateContactInfo (string newPhoneNumber)
         {
             PhoneNumber = newPhoneNumber;
+            Console.WriteLine("Номер телефону змінено!");
         }
 
-        public void GetInfo()
+
+
+        public virtual void GetInfo()
         {
             Console.WriteLine($"Name = {Name}, Age = {Age}, PhoneNumber = {PhoneNumber}");
             

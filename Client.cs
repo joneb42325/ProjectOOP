@@ -58,29 +58,36 @@ namespace ProjectOOP
         {
             PersonalTrainer = trainer;
             Trainer.AssignedClients.Add (client);
+            Console.WriteLine("Клієнт усиішно був записаний до тренера!");
         }
 
         public void RemoveTrainer (Trainer trainer, Client client)
         {
             PersonalTrainer = null;
             Trainer.AssignedClients.Remove (client);
+            Console.WriteLine("Ви успішно відмовилися від тренера!");
         }
         public void AddFunds(decimal amount)
         {
             Balance += amount;
             Console.WriteLine($"Balance updated. New balance: {Balance}");
         }
-        public string GetInformation()
+
+        public override void GetInfo()
         {
-            string s;
+            base.GetInfo();
+        }
+        public void GetInformation()
+        {
+            
+            Console.WriteLine(base.GetInfo);
             string subscriptionInfo = CurrentSubscription != null ?
                                       $"Subscription: Month (Valid from {CurrentSubscription.StartDate.ToShortDateString()} to {CurrentSubscription.EndDate.ToShortDateString()})" :
                                       "No active subscription.";
             string trainerInfo = PersonalTrainer != null ?
                                        $"Trainer Name : {PersonalTrainer.Name}; Trainer Age: {PersonalTrainer.Age}" :
                                        "Client has not trainer";
-            s=  $"Client Name: {Name}\nTrainer: {trainerInfo}\nBalance: {Balance}$\n{subscriptionInfo}";
-            return s;
+            Console.WriteLine($"Client Name: {Name}\nTrainer: {trainerInfo}\nBalance: {Balance}$\n{subscriptionInfo}");
         }
     }
 }

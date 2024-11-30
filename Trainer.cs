@@ -42,7 +42,8 @@ namespace ProjectOOP
    
         public void RemoveClient(Client client)
         {
-            AssignedClients.Remove (client);    
+            AssignedClients.Remove (client);
+            Console.WriteLine("Ви успішно відмовилися від клієнта!");
         }
 
         public decimal CalculateMonthlyEarnings(int hoursWorked)
@@ -50,11 +51,13 @@ namespace ProjectOOP
             return HourlyRate * hoursWorked;
         }
 
-        public string GetInformation ()
+        public override void GetInfo()
         {
-            string s;
-            s = $"Trainer Name: {Name}\n Speсialization: {Specialization}\n Amount of Clients: {AssignedClients.Count}";
-            return s;
+            base.GetInfo(); 
+        }
+        public void GetInformation ()
+        {
+            Console.WriteLine( $"Trainer Name: {Name}\n Speсialization: {Specialization}\n Amount of Clients: {AssignedClients.Count}");
         }
     }
 }

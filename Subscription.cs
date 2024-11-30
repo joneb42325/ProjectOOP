@@ -24,7 +24,7 @@ namespace ProjectOOP
 
         public void GetDetails()
         {
-            Console.WriteLine($"Balance = {Balance}\nPrice of subscription = {Price}");
+            Console.WriteLine($"Price of subscription = {Price}, Valid for a month upon purchase");
         }
     }
 }

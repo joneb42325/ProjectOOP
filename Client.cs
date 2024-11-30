@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,6 @@ namespace ProjectOOP
             if (Balance >= subscription.Price)
             {
                 Balance -= subscription.Price;
-                subscription.ProcessPayment(subscription.Price);
 
                 CurrentSubscription = subscription;
                 Console.WriteLine($"Month subscription purchased successfully");
@@ -39,14 +39,21 @@ namespace ProjectOOP
             }
         }
 
-        public void UpdateSubscription()
+        public void ExtendSubscription()
         {
             if (CurrentSubscription != null)
-                CurrentSubscription.Extend();
+            {
+                if (Balance >= CurrentSubscription.Price)
+                {
+                    Balance -= CurrentSubscription.Price;
+                    CurrentSubscription.EndDate = CurrentSubscription.EndDate.AddMonths(1);
+                }
+                else Console.WriteLine("Insufficient funds for the subscription.");
+            }
             else Console.WriteLine("Client don't have subscription yet.");
         }
 
-
+        
         public void AssignTrainer (Trainer trainer, Client client)
         {
             PersonalTrainer = trainer;
@@ -72,7 +79,7 @@ namespace ProjectOOP
             string trainerInfo = PersonalTrainer != null ?
                                        $"Trainer Name : {PersonalTrainer.Name}; Trainer Age: {PersonalTrainer.Age}" :
                                        "Client has not trainer";
-            s=  $"Client Name: {Name}\nTrainer: {trainerInfo}\nBalance: {Balance:C}\n{subscriptionInfo}";
+            s=  $"Client Name: {Name}\nTrainer: {trainerInfo}\nBalance: {Balance}$\n{subscriptionInfo}";
             return s;
         }
     }

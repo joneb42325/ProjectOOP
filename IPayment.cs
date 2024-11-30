@@ -8,7 +8,6 @@ namespace ProjectOOP
 {
     internal interface IPayment
     {
-        public void ProcessPayment(decimal amount);
         public bool IsActive();
         public void GetDetails();
     }

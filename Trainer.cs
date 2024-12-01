@@ -15,6 +15,8 @@ namespace ProjectOOP
 
         private decimal hourlyRate;
 
+        private int age;
+
         public string Specialization 
         {
             get { return specialization; }
@@ -22,9 +24,12 @@ namespace ProjectOOP
 
                 if (value.Length < 3 || value.Length > 30)
                 {
-                    throw new Exception("Спеціалізація повинна містити від 3 до 30 символів.");
+                    throw new Exception("Спеціалізація повинна містити від 3 до 100 символів.");
                 }
-
+                if (value.Count(char.IsLetter) < 5) 
+                {
+                    throw new ArgumentException("Спеціалізація повинна містити не менше 5 букв.");
+                }
                 specialization = value; 
             }
         }
@@ -35,15 +40,27 @@ namespace ProjectOOP
             set
             {
                 if (value <= 3)
-                    Console.WriteLine("Ставка тренера повинна бути не менше 3$ за годину");
+                    throw new Exception("Ставка тренера повинна бути не менше 3$ за годину");
                 hourlyRate = value;
             }
         }
-   
+
+        public override int Age {
+            // get => base.Age; set => base.Age = value;
+            get { return age; }
+            set
+            {
+                if (value <= 18 || value >= 50)
+                {
+                    throw new ArgumentException("Enter real life from 18 to 50 years");
+                }
+                age = value;
+            }
+        }
+
         public void RemoveClient(Client client)
         {
             AssignedClients.Remove (client);
-            Console.WriteLine("Ви успішно відмовилися від клієнта!");
         }
 
         public decimal CalculateMonthlyEarnings(int hoursWorked)

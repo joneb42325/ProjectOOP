@@ -32,7 +32,7 @@ namespace ProjectOOP
             }
         }
 
-        public int Age
+        public virtual int Age
         {
             get { return age; }
             set

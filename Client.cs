@@ -13,7 +13,17 @@ namespace ProjectOOP
 
         public Subscription CurrentSubscription;
 
-        public decimal Balance;
+        private decimal balance;
+
+        public decimal Balance
+        {
+            get { return balance; }
+            set {
+                if (value < 0)
+                    throw new ArgumentException("Баланс повинен бути > 0 $");
+                balance = value;
+            }
+        }
         public void PurchaseSubscription(Subscription subscription)
         {
             if (CurrentSubscription != null)
@@ -47,10 +57,12 @@ namespace ProjectOOP
                 {
                     Balance -= CurrentSubscription.Price;
                     CurrentSubscription.EndDate = CurrentSubscription.EndDate.AddMonths(1);
+                    Console.WriteLine("Абонемент подовжено на місяць!");
                 }
                 else Console.WriteLine("Insufficient funds for the subscription.");
             }
             else Console.WriteLine("Client don't have subscription yet.");
+            
         }
 
         

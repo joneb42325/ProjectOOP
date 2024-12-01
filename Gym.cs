@@ -13,14 +13,40 @@ namespace ProjectOOP
         private string adress { get; set; }
 
         public string Name
-       {
+        {
             get { return name; }
-            set {  name = value; }
-       }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Назва спортзалу не може бути пустою.");
+                }
+                if (value.Length < 3 || value.Length > 10)
+                {
+                    throw new ArgumentException("Назва спортзалу має містити від 3 до 10 символів.");
+                }
+                name = value;
+            }
+        }
         public string Adress
         {
             get { return adress; }
-            set { adress = value; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Адреса спортзалу не може бути пустою.");
+                }
+                if (value.Length < 5 || value.Length > 10)
+                {
+                    throw new ArgumentException("Адреса спортзалу має містити від 5 до 10 символів.");
+                }
+                if (!value.Any(char.IsLetter) || !value.Any(char.IsDigit))
+                {
+                    throw new ArgumentException("Адреса повинна містити хоча б одну букву і цифру.");
+                }
+                adress = value;
+            }
         }
         public List<Client> clients = new List<Client>();
 

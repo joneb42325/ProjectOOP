@@ -1,21 +1,55 @@
 ﻿using ProjectOOP;
+using System;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 List<Gym> gyms = new List<Gym>();
 bool working = true; bool clientworking = true; bool trainerworking = true;
+bool problem = false; int menu = 1; int gymChoice = 0; int clientIndex = 0; int trainerIndex = 0;
+int menuTrainer = 0;
 while (working)
 {
-    Console.WriteLine("Menu\n1 - Додати спортзал\n2 - Дії з клієнтом \n3 - Дії з тренером\n");
-    int menu = int.Parse(Console.ReadLine());
+    
+    do
+    {
+        try
+        {
+            problem = false;
+            Console.WriteLine("Menu\n1 - Додати спортзал\n2 - Дії з клієнтом \n3 - Дії з тренером\n4 - Вийти з програми");
+            menu = int.Parse(Console.ReadLine());
+        }
+        catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+        catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+    } while (problem);
     switch (menu)
     {
         case 1:
-            Gym gym1 = new Gym();
-            Console.Write("Input name of gym-->");
-            gym1.Name = Console.ReadLine();
-            Console.Write("Input adress of gym-->");
-            gym1.Adress = Console.ReadLine();
-            gyms.Add(gym1);
+            Gym gym = new Gym();
+            do
+            {
+                try
+                {
+                    problem = false;
+                    Console.Write("Input name of gym-->");
+                    gym.Name = Console.ReadLine();
+                }
+                catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                
+            } while (problem);
+            do
+            {
+                try
+                {
+                    problem = false;
+                    Console.Write("Input adress of gym-->");
+                    gym.Adress = Console.ReadLine();
+                }
+                catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+            } while (problem);
+            
+            gyms.Add(gym);
             Console.WriteLine("Gym added!");
             break;
 
@@ -26,13 +60,24 @@ while (working)
                 break;
             }
 
-            Console.WriteLine("Оберіть спортзал:");
-            for (int i = 0; i < gyms.Count; i++)
+
+            Gym selectedGym = gyms[0];
+            do
             {
-                Console.WriteLine($"{i + 1} - {gyms[i].Name}");
-            }
-            int gymChoice = int.Parse(Console.ReadLine()) - 1;
-            Gym selectedGym = gyms[gymChoice];
+                try
+                {
+                    problem = false;
+                    Console.WriteLine("Оберіть спортзал:");
+                    for (int i = 0; i < gyms.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1} - {gyms[i].Name}");
+                    }
+                    gymChoice = int.Parse(Console.ReadLine()) - 1;
+                    selectedGym = gyms[gymChoice];
+                }
+                catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+            } while (problem);
+            
             clientworking = true;
             while (clientworking)
             {
@@ -42,26 +87,78 @@ while (working)
                 {
                     case 1:
                         Client client = new Client();
-                        Console.Write("Введіть ім'я клієнта: ");
-                        client.Name = Console.ReadLine();
-                        Console.Write("Введіть вік клієнта: ");
-                        client.Age = int.Parse(Console.ReadLine());
-                        Console.Write("Введіть номер телефону клієнта (+380...): ");
-                        client.PhoneNumber = Console.ReadLine();
-                        Console.Write("Введіть баланс клієнта '$': ");
-                        client.Balance = decimal.Parse(Console.ReadLine());
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть ім'я клієнта: ");
+                                client.Name = Console.ReadLine();
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть вік клієнта: ");
+                                client.Age = int.Parse(Console.ReadLine());
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+  
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть номер телефону клієнта (+380...): ");
+                                client.PhoneNumber = Console.ReadLine();
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+                        
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть баланс клієнта '$': ");
+                                client.Balance = decimal.Parse(Console.ReadLine());
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
                         selectedGym.AddClient(client);
                         Console.WriteLine("Клієнта додано!");
                         break;
                     case 2:
                         if (selectedGym.clients.Count == 0 ) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+
+                        Client selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        int clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        Client selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
 
                         Console.Write("Сума для поповнення: ");
                         decimal amount = decimal.Parse(Console.ReadLine());
@@ -69,16 +166,67 @@ while (working)
                         break;
                     case 3:
 
+                        if (selectedGym.clients.Count == 0)
+                        {
+                            Console.WriteLine("Поки немає клієнтів");
+                            break;
+                        }
+                        selectedClient = selectedGym.clients[0];
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+                        do
+                        {
+                            try
+                            {
+
+                                problem = false;
+                                Console.Write("Введіть новий номер телефону: ");
+                                string newClientPhoneNumber = Console.ReadLine();
+
+                                selectedClient.UpdateContactInfo(newClientPhoneNumber);
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine($"Error: {ex.Message}"); problem = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error: {ex.Message}"); problem = true;
+                            }
+
+                        } while (problem);
                         break;
                     case 4: // Купити абонемент
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
 
                         Subscription subscription = new Subscription();
 
@@ -86,13 +234,22 @@ while (working)
                         break;
                     case 5: //Подовжити абонемент
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
 
                         selectedClient.ExtendSubscription();
                         break;
@@ -101,25 +258,45 @@ while (working)
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
 
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         if (selectedClient.CurrentSubscription == null || !selectedClient.CurrentSubscription.IsActive())
                         {
                             Console.WriteLine("У вас немає дійсного абонементу");
                             break;
-                        }    
-                        Console.WriteLine("Оберіть тренера:");
-                        for (int i = 0; i < gyms.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
                         }
-                        int trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        Trainer selectedTrainer = selectedGym.trainers[trainerIndex];
+                        Trainer selectedTrainer = selectedGym.trainers[0];  
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                            
+                            Console.WriteLine("Оберіть тренера:");
+                            for (int i = 0; i < gyms.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                            }
+                            trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                            selectedTrainer = selectedGym.trainers[trainerIndex];
+                        }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
 
                         selectedClient.AssignTrainer(selectedTrainer, selectedClient);
                         Console.WriteLine($"Клієнта {selectedClient.Name} записано до тренера {selectedTrainer.Name}.");
@@ -128,13 +305,23 @@ while (working)
                     case 7: // Відмова від тренера
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < gyms.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         if (selectedClient.CurrentSubscription == null || !selectedClient.CurrentSubscription.IsActive())
                         {
                             Console.WriteLine("У вас немає дійсного абонементу");
@@ -154,13 +341,23 @@ while (working)
 
                     case 8: // Перевірити чи активний абонемент
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         if (selectedClient.CurrentSubscription == null)
                         {
                             Console.WriteLine("У клієнта ще немає абонемента");
@@ -173,13 +370,22 @@ while (working)
                         break;
                     case 9: // Вивід інформації про клієнта
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
 
                         selectedClient.GetInformation();
                         break;
@@ -189,13 +395,23 @@ while (working)
                         break;
                     case 11: //Вивести особисту інформацію клієнта
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.clients.Count; i++)
+                        selectedClient = selectedGym.clients[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
+                            try
+                            {
+                                problem = false;
+                                Console.WriteLine("Оберіть клієнта:");
+                                for (int i = 0; i < selectedGym.clients.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
+                                }
+                                clientIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedClient = selectedGym.clients[clientIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         selectedClient.GetInfo();
                         break;
                     case 12:
@@ -215,43 +431,128 @@ while (working)
                 break;
             }
 
-            Console.WriteLine("Оберіть спортзал:");
-            for (int i = 0; i < gyms.Count; i++)
+            
+            selectedGym = gyms[0];
+            do
             {
-                Console.WriteLine($"{i + 1} - {gyms[i].Name}");
-            }
-            int gymChoice2 = int.Parse(Console.ReadLine()) - 1;
-            selectedGym = gyms[gymChoice2];
+                try
+                {
+                    problem = false;
+                    Console.WriteLine("Оберіть спортзал:");
+                    for (int i = 0; i < gyms.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1} - {gyms[i].Name}");
+                    }
+                    gymChoice = int.Parse(Console.ReadLine()) - 1;
+                    selectedGym = gyms[gymChoice];
+                }
+                catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+            } while (problem);
             trainerworking = true;
             while (trainerworking)
+               
             {
-                Console.WriteLine("1 - Додати тренера\n2 - Вивести список записаних до тренера клієнтів\n3 - Видалити клієнта\n4 - Розрахувати щомісячний дохід\n5 - Вивести інформацію про тренера\n6 - Вивести особисту інформацію\n7 - Вийти");
-                int menuTrainer = int.Parse(Console.ReadLine());
+                do
+                {
+                    try
+                    {
+                        problem = false;
+                        Console.WriteLine("1 - Додати тренера\n2 - Вивести список записаних до тренера клієнтів\n3 - Видалити клієнта\n4 - Розрахувати щомісячний дохід\n5 - Вивести інформацію про тренера\n6 - Вивести особисту інформацію\n7 - Вийти");
+                        menuTrainer = int.Parse(Console.ReadLine());
+                    }
+                    catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                } while (problem);
                 switch (menuTrainer)
                 {
                     case 1:
                         Trainer trainer = new Trainer();
-                        Console.Write("Введіть ім'я тренера: ");
-                        trainer.Name = Console.ReadLine();
-                        Console.Write("Введіть вік тренера: ");
-                        trainer.Age = int.Parse(Console.ReadLine());
-                        Console.Write("Введіть спеціалізацію тренера: ");
-                        trainer.Specialization = Console.ReadLine();
-                        Console.Write("Введіть погодинну ставку тренера: ");
-                        trainer.HourlyRate = decimal.Parse(Console.ReadLine());
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть ім'я тренера: ");
+                                trainer.Name = Console.ReadLine();
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть вік тренера: ");
+                                trainer.Age = int.Parse(Console.ReadLine());
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть номер телефону тренера (+380...): ");
+                                trainer.PhoneNumber = Console.ReadLine();
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть спеціалізацію тренера: ");
+                                trainer.Specialization = Console.ReadLine();
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
+                       
+                        do
+                        {
+                            try
+                            {
+                                problem = false;
+                                Console.Write("Введіть погодинну ставку тренера: ");
+                                trainer.HourlyRate = decimal.Parse(Console.ReadLine());
+                            }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+
+                        } while (problem);
                         selectedGym.AddTrainer(trainer);
                         Console.WriteLine("Тренера додано!");
                         break;
                     case 2:
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
-                        
-                        Console.WriteLine("Оберіть тренера:");
-                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+
+                        Trainer selectedTrainer = selectedGym.trainers[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
-                        }
-                        int trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        Trainer selectedTrainer = selectedGym.trainers[trainerIndex];
+                            try
+                            {
+                                problem = false;
+
+                                Console.WriteLine("Оберіть тренера:");
+                                for (int i = 0; i < gyms.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                                }
+                                trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedTrainer = selectedGym.trainers[trainerIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         if (Trainer.AssignedClients.Count == 0)
                         {
                             Console.WriteLine("У цього тренера поки немає клієнтів");
@@ -267,13 +568,23 @@ while (working)
                     case 3:
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть тренера:");
-                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        selectedTrainer = selectedGym.trainers[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
-                        }
-                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedTrainer = selectedGym.trainers[trainerIndex];
+                            try
+                            {
+                                problem = false;
+
+                                Console.WriteLine("Оберіть тренера:");
+                                for (int i = 0; i < gyms.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                                }
+                                trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedTrainer = selectedGym.trainers[trainerIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
 
                         if (Trainer.AssignedClients.Count == 0)
                         {
@@ -295,13 +606,24 @@ while (working)
 
                     case 4:
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        selectedTrainer = selectedGym.trainers[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
-                        }
-                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedTrainer = selectedGym.trainers[trainerIndex];
+                            try
+                            {
+                                problem = false;
+
+                                Console.WriteLine("Оберіть тренера:");
+                                for (int i = 0; i < gyms.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                                }
+                                trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedTrainer = selectedGym.trainers[trainerIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         Console.Write("Введіть кількість відпрацьованих годин за місяць: ");
                         int hoursWorked = int.Parse(Console.ReadLine());
                         decimal earnings = selectedTrainer.CalculateMonthlyEarnings(hoursWorked);
@@ -310,24 +632,45 @@ while (working)
   
                     case 5:
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        selectedTrainer = selectedGym.trainers[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
-                        }
-                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedTrainer = selectedGym.trainers[trainerIndex];
+                            try
+                            {
+                                problem = false;
+
+                                Console.WriteLine("Оберіть тренера:");
+                                for (int i = 0; i < gyms.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                                }
+                                trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedTrainer = selectedGym.trainers[trainerIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
+
                         selectedTrainer.GetInformation();
                         break;
                     case 6:
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        selectedTrainer = selectedGym.trainers[0];
+                        do
                         {
-                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
-                        }
-                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedTrainer = selectedGym.trainers[trainerIndex];
+                            try
+                            {
+                                problem = false;
+
+                                Console.WriteLine("Оберіть тренера:");
+                                for (int i = 0; i < gyms.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                                }
+                                trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                                selectedTrainer = selectedGym.trainers[trainerIndex];
+                            }
+                            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
+                        } while (problem);
                         selectedTrainer.GetInfo();
                         break;
                     case 7:
@@ -339,6 +682,9 @@ while (working)
                 }
                 }
               break;
+        case 4:
+            working = false;
+            break;
              default:
             Console.WriteLine("Невідомий пункт меню");
                 break;

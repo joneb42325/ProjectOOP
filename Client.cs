@@ -27,7 +27,7 @@ namespace ProjectOOP
                 Balance -= subscription.Price;
 
                 CurrentSubscription = subscription;
-                Console.WriteLine($"Month subscription purchased successfully");
+                Console.WriteLine($"Місячний абонемент успішно придбано!\n З балансу списано {CurrentSubscription.Price}$");
 
           
                 subscription.StartDate = DateTime.Now;
@@ -58,14 +58,12 @@ namespace ProjectOOP
         {
             PersonalTrainer = trainer;
             Trainer.AssignedClients.Add (client);
-            Console.WriteLine("Клієнт усиішно був записаний до тренера!");
         }
 
         public void RemoveTrainer (Trainer trainer, Client client)
         {
             PersonalTrainer = null;
             Trainer.AssignedClients.Remove (client);
-            Console.WriteLine("Ви успішно відмовилися від тренера!");
         }
         public void AddFunds(decimal amount)
         {
@@ -80,7 +78,6 @@ namespace ProjectOOP
         public void GetInformation()
         {
             
-            Console.WriteLine(base.GetInfo);
             string subscriptionInfo = CurrentSubscription != null ?
                                       $"Subscription: Month (Valid from {CurrentSubscription.StartDate.ToShortDateString()} to {CurrentSubscription.EndDate.ToShortDateString()})" :
                                       "No active subscription.";

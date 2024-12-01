@@ -41,16 +41,16 @@ while (working)
                 switch (menuClient)
                 {
                     case 1:
-                        Client client1 = new Client();
+                        Client client = new Client();
                         Console.Write("Введіть ім'я клієнта: ");
-                        client1.Name = Console.ReadLine();
+                        client.Name = Console.ReadLine();
                         Console.Write("Введіть вік клієнта: ");
-                        client1.Age = int.Parse(Console.ReadLine());
+                        client.Age = int.Parse(Console.ReadLine());
                         Console.Write("Введіть номер телефону клієнта (+380...): ");
-                        client1.PhoneNumber = Console.ReadLine();
-                        Console.Write("Введіть баланс клієнта: ");
-                        client1.Balance = decimal.Parse(Console.ReadLine());
-                        selectedGym.AddClient(client1);
+                        client.PhoneNumber = Console.ReadLine();
+                        Console.Write("Введіть баланс клієнта '$': ");
+                        client.Balance = decimal.Parse(Console.ReadLine());
+                        selectedGym.AddClient(client);
                         Console.WriteLine("Клієнта додано!");
                         break;
                     case 2:
@@ -70,7 +70,7 @@ while (working)
                     case 3:
 
                         break;
-                    case 4:
+                    case 4: // Купити абонемент
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         Console.WriteLine("Оберіть клієнта:");
                         for (int i = 0; i < selectedGym.clients.Count; i++)
@@ -80,11 +80,11 @@ while (working)
                         clientIndex = int.Parse(Console.ReadLine()) - 1;
                         selectedClient = selectedGym.clients[clientIndex];
 
-                        Subscription subscription1 = new Subscription();
+                        Subscription subscription = new Subscription();
 
-                        selectedClient.PurchaseSubscription(subscription1);
+                        selectedClient.PurchaseSubscription(subscription);
                         break;
-                    case 5:
+                    case 5: //Подовжити абонемент
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         Console.WriteLine("Оберіть клієнта:");
                         for (int i = 0; i < selectedGym.clients.Count; i++)
@@ -100,6 +100,7 @@ while (working)
                     case 6: // Запис до тренера
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
+
                         Console.WriteLine("Оберіть клієнта:");
                         for (int i = 0; i < selectedGym.clients.Count; i++)
                         {
@@ -107,7 +108,11 @@ while (working)
                         }
                         clientIndex = int.Parse(Console.ReadLine()) - 1;
                         selectedClient = selectedGym.clients[clientIndex];
-
+                        if (selectedClient.CurrentSubscription == null || !selectedClient.CurrentSubscription.IsActive())
+                        {
+                            Console.WriteLine("У вас немає дійсного абонементу");
+                            break;
+                        }    
                         Console.WriteLine("Оберіть тренера:");
                         for (int i = 0; i < gyms.Count; i++)
                         {
@@ -130,7 +135,11 @@ while (working)
                         }
                         clientIndex = int.Parse(Console.ReadLine()) - 1;
                         selectedClient = selectedGym.clients[clientIndex];
-
+                        if (selectedClient.CurrentSubscription == null || !selectedClient.CurrentSubscription.IsActive())
+                        {
+                            Console.WriteLine("У вас немає дійсного абонементу");
+                            break;
+                        }
                         if (selectedClient.PersonalTrainer != null)
                         {
                             selectedTrainer = selectedClient.PersonalTrainer;
@@ -143,7 +152,7 @@ while (working)
                         }
                         break;
 
-                    case 8:
+                    case 8: // Перевірити чи активний абонемент
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         Console.WriteLine("Оберіть клієнта:");
                         for (int i = 0; i < selectedGym.clients.Count; i++)
@@ -162,7 +171,7 @@ while (working)
                         else Console.WriteLine("Абонемент просрочений");
 
                         break;
-                    case 9:
+                    case 9: // Вивід інформації про клієнта
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         Console.WriteLine("Оберіть клієнта:");
                         for (int i = 0; i < selectedGym.clients.Count; i++)
@@ -175,25 +184,10 @@ while (working)
                         selectedClient.GetInformation();
                         break;
                     case 10: // Вивести інформацію про абонемент
-                        if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
-                        Console.WriteLine("Оберіть клієнта:");
-                        for (int i = 0; i < gyms.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1} - {selectedGym.clients[i].Name}");
-                        }
-                        clientIndex = int.Parse(Console.ReadLine()) - 1;
-                        selectedClient = selectedGym.clients[clientIndex];
-
-                        if (selectedClient.CurrentSubscription != null)
-                        {
-                            selectedClient.CurrentSubscription.GetDetails();
-                        }
-                        else
-                        {
-                            Console.WriteLine("У клієнта немає активного абонемента.");
-                        }
+                        Subscription subscription1 = new Subscription();
+                        subscription1.GetDetails();
                         break;
-                    case 11:
+                    case 11: //Вивести особисту інформацію клієнта
                         if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
                         Console.WriteLine("Оберіть клієнта:");
                         for (int i = 0; i < selectedGym.clients.Count; i++)
@@ -231,27 +225,99 @@ while (working)
             trainerworking = true;
             while (trainerworking)
             {
-                Console.WriteLine("1 - Додати клієнта\n2 - Вивести список записаних до тренера клієнтів\n3 - Видалити клієнта\n4 - Розрахувати щомісячний дохід\n5 - Вевсти інформацію про тренера\n6 - Вивести особисту інформацію");
+                Console.WriteLine("1 - Додати тренера\n2 - Вивести список записаних до тренера клієнтів\n3 - Видалити клієнта\n4 - Розрахувати щомісячний дохід\n5 - Вивести інформацію про тренера\n6 - Вивести особисту інформацію\n7 - Вийти");
                 int menuTrainer = int.Parse(Console.ReadLine());
                 switch (menuTrainer)
                 {
                     case 1:
-                        Trainer trainer1 = new Trainer();
+                        Trainer trainer = new Trainer();
                         Console.Write("Введіть ім'я тренера: ");
-                        trainer1.Name = Console.ReadLine();
+                        trainer.Name = Console.ReadLine();
                         Console.Write("Введіть вік тренера: ");
-                        trainer1.Age = int.Parse(Console.ReadLine());
+                        trainer.Age = int.Parse(Console.ReadLine());
                         Console.Write("Введіть спеціалізацію тренера: ");
-                        trainer1.Specialization = Console.ReadLine();
+                        trainer.Specialization = Console.ReadLine();
                         Console.Write("Введіть погодинну ставку тренера: ");
-                        trainer1.HourlyRate = decimal.Parse(Console.ReadLine());
-                        selectedGym.AddTrainer(trainer1);
+                        trainer.HourlyRate = decimal.Parse(Console.ReadLine());
+                        selectedGym.AddTrainer(trainer);
                         Console.WriteLine("Тренера додано!");
                         break;
                     case 2:
-                        break;
-                    case 5:
+                        if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
+                        
+                        Console.WriteLine("Оберіть тренера:");
+                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                        }
+                        int trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                        Trainer selectedTrainer = selectedGym.trainers[trainerIndex];
+                        if (Trainer.AssignedClients.Count == 0)
+                        {
+                            Console.WriteLine("У цього тренера поки немає клієнтів");
+                            break;
+                        }
 
+                        Console.WriteLine($"Список клієнтів тренера {selectedTrainer.Name}:");
+                        foreach (var client in Trainer.AssignedClients)
+                        {
+                            Console.WriteLine($"- {client.Name}");
+                        }
+                        break;
+                    case 3:
+                        if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
+                        if (selectedGym.clients.Count == 0) { Console.WriteLine("Пока немає клієнтів"); break; }
+                        Console.WriteLine("Оберіть тренера:");
+                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                        }
+                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                        selectedTrainer = selectedGym.trainers[trainerIndex];
+
+                        if (Trainer.AssignedClients.Count == 0)
+                        {
+                            Console.WriteLine("У цього тренера немає клієнтів для видалення");
+                            break;
+                        }
+
+                        Console.WriteLine("Оберіть клієнта для видалення:");
+                        for (int i = 0; i < Trainer.AssignedClients.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1} - {Trainer.AssignedClients[i].Name}");
+                        }
+                        int clientToRemoveIndex = int.Parse(Console.ReadLine()) - 1;
+                        Client clientToRemove = Trainer.AssignedClients[clientToRemoveIndex];
+
+                        clientToRemove.RemoveTrainer(selectedTrainer, clientToRemove);
+                        Console.WriteLine($"Клієнта {clientToRemove.Name} видалено з тренера {selectedTrainer.Name}");
+                        break;
+
+                    case 4:
+                        if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
+                        Console.WriteLine("Оберіть клієнта:");
+                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                        }
+                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                        selectedTrainer = selectedGym.trainers[trainerIndex];
+                        Console.Write("Введіть кількість відпрацьованих годин за місяць: ");
+                        int hoursWorked = int.Parse(Console.ReadLine());
+                        decimal earnings = selectedTrainer.CalculateMonthlyEarnings(hoursWorked);
+                        Console.WriteLine($"Щомісячний дохід тренера {selectedTrainer.Name}: {earnings}$");
+                        break;
+  
+                    case 5:
+                        if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
+                        Console.WriteLine("Оберіть клієнта:");
+                        for (int i = 0; i < selectedGym.trainers.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
+                        }
+                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                        selectedTrainer = selectedGym.trainers[trainerIndex];
+                        selectedTrainer.GetInformation();
                         break;
                     case 6:
                         if (selectedGym.trainers.Count == 0) { Console.WriteLine("Пока немає тренерів"); break; }
@@ -260,8 +326,8 @@ while (working)
                         {
                             Console.WriteLine($"{i + 1} - {selectedGym.trainers[i].Name}");
                         }
-                        int trainerIndex = int.Parse(Console.ReadLine()) - 1;
-                        Trainer selectedTrainer = selectedGym.trainers[trainerIndex];
+                        trainerIndex = int.Parse(Console.ReadLine()) - 1;
+                        selectedTrainer = selectedGym.trainers[trainerIndex];
                         selectedTrainer.GetInfo();
                         break;
                     case 7:

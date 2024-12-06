@@ -15,6 +15,12 @@ namespace ProjectOOP
 
         private decimal balance;
 
+        public delegate void ClientInfo(decimal amount);
+       
+        public event ClientInfo ClientMoneyChanged;
+
+        public event Action<Trainer,Client> TrainerChanged;
+
         public decimal Balance
         {
             get { return balance; }
@@ -70,6 +76,7 @@ namespace ProjectOOP
         {
             PersonalTrainer = trainer;
             Trainer.AssignedClients.Add (client);
+            TrainerChanged?.Invoke(trainer, client);
         }
 
         public void RemoveTrainer (Trainer trainer, Client client)
@@ -79,10 +86,12 @@ namespace ProjectOOP
         }
         public void AddFunds(decimal amount)
         {
+            if (amount <= 0)
+            { throw new ArgumentException("Сума поповнення повинна бути > 0"); }    
             Balance += amount;
             Console.WriteLine($"Balance updated. New balance: {Balance}");
+            ClientMoneyChanged?.Invoke(amount);
         }
-
         public override void GetInfo()
         {
             base.GetInfo();

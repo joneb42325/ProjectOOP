@@ -1,5 +1,7 @@
 ﻿using ProjectOOP;
 using System;
+using System.Xml.Linq;
+using static ProjectOOP.Client;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 List<Gym> gyms = new List<Gym>();
@@ -157,12 +159,26 @@ while (working)
                                 clientIndex = int.Parse(Console.ReadLine()) - 1;
                                 selectedClient = selectedGym.clients[clientIndex];
                             }
+                            catch (ArgumentException ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
                             catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
                         } while (problem);
 
-                        Console.Write("Сума для поповнення: ");
-                        decimal amount = decimal.Parse(Console.ReadLine());
-                        selectedClient.AddFunds(amount);
+                        selectedClient.ClientMoneyChanged += amount =>
+                        {
+                            Console.WriteLine($"Подія: Баланс клієнта збільшено на {amount}$.");
+                        };
+                        try
+                        {
+                            do
+                            {
+                                problem = false;
+                                Console.Write("Сума для поповнення: ");
+                                decimal amount = decimal.Parse(Console.ReadLine());
+                                selectedClient.AddFunds(amount);
+                            } while (problem);
+                        }
+                        catch (Exception ex) { Console.WriteLine("Error: " + ex.Message ); problem = true; }
+                      // ClientMoneyChanged += selectedClient.AddFunds(amount);
                         break;
                     case 3:
 
@@ -298,8 +314,21 @@ while (working)
                             catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); problem = true; }
                         } while (problem);
 
-                        selectedClient.AssignTrainer(selectedTrainer, selectedClient);
-                        Console.WriteLine($"Клієнта {selectedClient.Name} записано до тренера {selectedTrainer.Name}.");
+                        selectedTrainer.CanTakeClient = client => Trainer.AssignedClients.Count < 10;
+
+                        if (selectedTrainer.AddClientIfEligible(selectedClient))
+                        {
+                            selectedClient.TrainerChanged += (selectedTrainer, selectedClient) =>
+                        {
+                            Console.WriteLine($"Подія: Клієнта {selectedClient.Name} записано до тренера {selectedTrainer.Name}.");
+                        };
+                            selectedClient.AssignTrainer(selectedTrainer, selectedClient);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Тренер {selectedTrainer.Name} не може прийняти більше клієнтів.");
+                        }
+                       // Console.WriteLine($"Клієнта {selectedClient.Name} записано до тренера {selectedTrainer.Name}.");
                         break;
 
                     case 7: // Відмова від тренера
@@ -626,7 +655,9 @@ while (working)
 
                         Console.Write("Введіть кількість відпрацьованих годин за місяць: ");
                         int hoursWorked = int.Parse(Console.ReadLine());
-                        decimal earnings = selectedTrainer.CalculateMonthlyEarnings(hoursWorked);
+                        // decimal earnings = selectedTrainer.CalculateMonthlyEarnings(hoursWorked);
+                        Func<int, decimal> calculateEarnings = hours => selectedTrainer.HourlyRate * hours;
+                        decimal earnings = calculateEarnings(hoursWorked);
                         Console.WriteLine($"Щомісячний дохід тренера {selectedTrainer.Name}: {earnings}$");
                         break;
   
@@ -692,5 +723,8 @@ while (working)
     
 }
 
+void SelectedClient_BalanceChanged(string obj)
+{
+    throw new NotImplementedException();
+}
 
-    

@@ -17,6 +17,21 @@ namespace ProjectOOP
 
         private int age;
 
+        public Func<int, decimal> CalculateEarnings;
+
+        public Predicate<Client> CanTakeClient { get; set; }
+
+        public bool AddClientIfEligible(Client client)
+        {
+            if (CanTakeClient(client))
+            {
+                return true;
+            }
+           
+            return false;
+        }
+
+
         public string Specialization 
         {
             get { return specialization; }
@@ -63,10 +78,11 @@ namespace ProjectOOP
             AssignedClients.Remove (client);
         }
 
-        public decimal CalculateMonthlyEarnings(int hoursWorked)
+        
+       /* public decimal CalculateMonthlyEarnings(int hoursWorked)
         {
             return HourlyRate * hoursWorked;
-        }
+        } */
 
         public override void GetInfo()
         {

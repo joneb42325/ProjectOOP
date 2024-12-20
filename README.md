@@ -16,7 +16,7 @@
   - Додавання або видалення клієнтів і тренерів.
   - Підтримка взаємодії з багатьма клієнтами та тренерами одночасно.
 
-![Gym Illustration](https://example.com/gym-illustration.png)
+<img src="https://i.shgcdn.com/d61f124a-5eb2-41c7-abd1-ace0dd6f7d97/-/format/auto/-/preview/500x500/-/quality/lighter/" alt="Gym Illustration" width="400">
 
 ---
 
@@ -96,14 +96,19 @@
 - Покращити комунікацію між учасниками.
 - Забезпечити зручний доступ до інформації для адміністрації клубу.
 
-![System Workflow](https://example.com/system-workflow.png)
+<img src="https://5.imimg.com/data5/ZU/QM/TO/SELLER-40306233/gym-management-system-500x500.png" alt="Gym Illustration" width="400">
 
 ---
 
 ## Діаграми
 
+
 ### UML-діаграма класів (загальна структура)
-![UML Diagram 1](attachment:///mnt/data/image.png)
+![diagram1](https://github.com/user-attachments/assets/8389561b-cc5e-4302-8d63-bce4e8c1665c)
 
 ### UML-діаграма класів (детальний вигляд)
-![UML Diagram 2](attachment:///mnt/data/image.png)
+![diagram2](https://github.com/user-attachments/assets/4133419e-45dd-4eaf-8e51-f83990e8dc47)
+
+
+
+
